@@ -1,0 +1,45 @@
+def create(namespace, parent):
+    d_namespaces[namespace] = parent
+    if d_variables.get(namespace) == None:
+        d_variables[namespace] = set()
+    return
+    
+def add(namespace, var):
+    d_variables[namespace].add(var)
+    return
+
+def get(namespace, var):
+    if namespace == None:
+        return 'None'
+    if var in d_variables[namespace]:
+        return namespace
+    else:
+        return get(d_namespaces.get(namespace), var)
+
+
+#n = int(input())
+
+n = 9
+comands = ["add global a",
+"create foo global",
+"add foo b",
+"get foo a",
+"get foo c",
+"create bar foo",
+"add bar a",
+"get bar a",
+"get bar b"]
+
+d_namespaces = {'global': None}
+d_variables = {'global': set()}
+
+for c in comands:
+    #cmd, namesp, arg = input().split()
+    cmd, namesp, arg = c.split()
+    if cmd == 'create':
+      create(namesp, arg)
+    if cmd == 'add':
+      add(namesp, arg)
+    if cmd == 'get':
+      print(get(namesp, arg))
+    #print(cmd, namesp, arg)
